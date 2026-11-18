@@ -4,6 +4,7 @@ import { CUELLO, DAYS, MONTHS } from '../data/routine';
 import { AppState } from '../types';
 import { dKey, dayDate, fmtD, isNeck } from '../utils/dates';
 import { normalizeState } from '../utils/storage';
+import { WeeklyVolumeChart } from './WeeklyVolumeChart';
 
 interface SemanaViewProps {
   state: AppState;
@@ -135,6 +136,8 @@ export const SemanaView: React.FC<SemanaViewProps> = ({
           </p>
         </div>
       </section>
+
+      <WeeklyVolumeChart state={state} />
 
       <div className="lg:grid lg:grid-cols-12 lg:gap-8 lg:items-start space-y-7 lg:space-y-0">
         <section className="lg:col-span-7">

@@ -1,0 +1,6 @@
+{
+  "name": "Mi entreno y cuidado",
+  "description": "Rutina diaria de entrenamiento de calistenia, cuidado personal, temporizador isométrico y progreso semanal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

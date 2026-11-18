@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #09090b;
+  --card: #141417;
+  --card2: #1b1b20;
+  --line: #26262c;
+  --text: #f4f4f5;
+  --muted: #a1a1aa;
+  --red: #ff1f3d;
+  --fuchsia: #ff2bd1;
+  --teal: #2dd4bf;
+  --cyan: #22d3ee;
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-mono {
+  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+.g-ent {
+  background-image: linear-gradient(135deg, var(--red), var(--fuchsia));
+}
+
+.g-cui {
+  background-image: linear-gradient(135deg, var(--teal), var(--cyan));
+}
+
+.t-ent {
+  background-image: linear-gradient(135deg, var(--red), var(--fuchsia));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.t-cui {
+  background-image: linear-gradient(135deg, var(--teal), var(--cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.glow {
+  background-image: radial-gradient(600px 240px at 50% -90px, rgba(255, 43, 209, 0.14), transparent 70%);
+}
+
+@keyframes flash-bar {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.animate-flash {
+  animation: flash-bar 0.55s 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

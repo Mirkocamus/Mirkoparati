@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#09090b">
+<title>Mi entreno y cuidado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<style>
+  :root{
+    --bg:#09090b; --card:#141417; --card2:#1b1b20; --line:#26262c;
+    --text:#f4f4f5; --muted:#a1a1aa;
+    --red:#ff1f3d; --fuchsia:#ff2bd1; --teal:#2dd4bf; --cyan:#22d3ee;
+  }
+  html{color-scheme:dark}
+  body{background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+  button,input{font:inherit;color:inherit}
+  button{cursor:pointer}
+  :focus-visible{outline:2px solid var(--fuchsia);outline-offset:2px}
+
+  .g-ent{background-image:linear-gradient(135deg,var(--red),var(--fuchsia))}
+  .g-cui{background-image:linear-gradient(135deg,var(--teal),var(--cyan))}
+  .t-ent{background-image:linear-gradient(135deg,var(--red),var(--fuchsia));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .t-cui{background-image:linear-gradient(135deg,var(--teal),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:1.25rem}
+  .glow{background-image:radial-gradient(600px 240px at 50% -90px,rgba(255,43,209,.14),transparent 70%)}
+
+  .chk{width:2rem;height:2rem;flex:none;border-radius:.7rem;border:1.5px solid #3f3f46;display:flex;align-items:center;justify-content:center;transition:transform .12s,background .15s,border-color .15s;background:transparent;color:#fff}
+  .chk:active{transform:scale(.92)}
+  .chk.on.ent{border-color:transparent;background-image:linear-gradient(135deg,var(--red),var(--fuchsia))}
+  .chk.on.cui{border-color:transparent;background-image:linear-gradient(135deg,var(--teal),var(--cyan));color:#042f2e}
+
+  .ex{display:flex;gap:.9rem;align-items:flex-start;padding:.9rem 1rem;margin-top:.6rem;transition:border-color .15s}
+  .ex:hover{border-color:#34343c}
+  .tag{display:inline-block;margin-left:.4rem;padding:.05rem .45rem;border-radius:9999px;font-size:.65rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#ff8095;border:1px solid rgba(255,31,61,.45);background:rgba(255,31,61,.08);vertical-align:middle}
+
+  .pip{width:2.1rem;height:2.1rem;border-radius:.65rem;border:1px solid var(--line);background:var(--card2);font-weight:700;font-size:.8rem;color:var(--muted);transition:transform .12s}
+  .pip:active{transform:scale(.92)}
+  .pip.on{border-color:transparent;background-image:linear-gradient(135deg,var(--red),var(--fuchsia));color:#fff}
+  .pip.on.cui{background-image:linear-gradient(135deg,var(--teal),var(--cyan));color:#042f2e}
+
+  .note-in{margin-top:.55rem;width:100%;max-width:12rem;background:#0e0e11;border:1px solid var(--line);border-radius:.7rem;padding:.4rem .6rem;font-size:.85rem;min-height:2.25rem}
+  .note-in::placeholder{color:#71717a}
+  .note-in:focus{border-color:var(--fuchsia);outline:none}
+
+  .strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:.4rem}
+  .day{display:flex;flex-direction:column;align-items:center;gap:.1rem;padding:.5rem 0 .45rem;border-radius:1rem;border:1px solid var(--line);background:var(--card);transition:transform .12s}
+  .day:active{transform:scale(.96)}
+  .day.on{border-color:transparent;background-image:linear-gradient(135deg,var(--red),var(--fuchsia));color:#fff}
+  .day.today:not(.on){border-color:var(--fuchsia)}
+  .dot{width:.38rem;height:.38rem;border-radius:9999px;background:#3f3f46;margin-top:.25rem}
+  .dot.e{background:var(--red)} .dot.c{background:var(--teal)}
+
+  .vchip{width:2.6rem;height:2.6rem;border-radius:9999px;border:1.5px solid #3f3f46;font-weight:700;background:transparent}
+  .vchip.on{border-color:transparent;background-image:linear-gradient(135deg,var(--teal),var(--cyan));color:#042f2e}
+
+  .bar{height:.35rem;border-radius:9999px;background:#27272a;overflow:hidden}
+  .bar > i{display:block;height:100%;border-radius:9999px;transition:width .35s}
+  .bar.e > i{background-image:linear-gradient(135deg,var(--red),var(--fuchsia))}
+  .bar.c > i{background-image:linear-gradient(135deg,var(--teal),var(--cyan))}
+
+  .navbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.6rem 0;border-radius:1rem;color:var(--muted);background:transparent;border:0;font-size:.75rem;font-weight:600}
+  .navbtn.on{color:#fff;background:var(--card2)}
+
+  .pre{flex:1;height:2.2rem;border-radius:.7rem;border:1px solid var(--line);background:var(--card2);font-weight:700;font-size:.8rem;color:var(--muted)}
+  .pre.on{border-color:transparent;background-image:linear-gradient(135deg,var(--red),var(--fuchsia));color:#fff}
+
+  .ghost{display:inline-flex;align-items:center;gap:.4rem;min-height:2.5rem;padding:.4rem .9rem;border-radius:.9rem;border:1px dashed #3f3f46;color:var(--muted);background:transparent;font-size:.85rem}
+  .ghost:hover{border-color:var(--fuchsia);color:#fff}
+
+  @keyframes flash{0%,100%{opacity:1}50%{opacity:.35}}
+  .flash{animation:flash .6s 3}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+</style>
+</head>
+<body>
+
+<main id="app" class="max-w-xl mx-auto px-4 pt-6 pb-64"></main>
+
+<!-- Temporizador de descanso -->
+<div id="timer" class="fixed inset-x-0 bottom-16 z-40 border-t" style="background:rgba(20,20,23,.96);backdrop-filter:blur(10px);border-color:var(--line)">
+  <div class="max-w-xl mx-auto px-4 py-2.5">
+    <div class="flex items-center gap-2.5">
+      <span id="tTime" class="font-mono text-2xl tabular-nums w-[4.2rem] shrink-0" aria-live="off">00:00</span>
+      <div class="flex gap-1.5 flex-1" role="group" aria-label="Duración del descanso">
+        <button type="button" class="pre" data-act="preset" data-s="60">60s</button>
+        <button type="button" class="pre" data-act="preset" data-s="90">90s</button>
+        <button type="button" class="pre" data-act="preset" data-s="120">2min</button>
+      </div>
+      <button type="button" id="tBtn" data-act="tToggle" class="g-ent rounded-xl px-3 min-h-[2.4rem] font-semibold text-white shrink-0" aria-label="Iniciar o pausar descanso">Iniciar</button>
+      <button type="button" data-act="tReset" class="rounded-xl border min-h-[2.4rem] w-10 flex items-center justify-center shrink-0" style="border-color:var(--line);background:var(--card2)" aria-label="Reiniciar descanso"><i data-lucide="rotate-ccw" class="w-4 h-4"></i></button>
+    </div>
+    <div class="bar mt-2 bar e"><i id="tFill" style="width:0%"></i></div>
+  </div>
+</div>
+
+<!-- Pestañas -->
+<nav class="fixed inset-x-0 bottom-0 z-50 border-t" style="background:rgba(9,9,11,.97);backdrop-filter:blur(10px);border-color:var(--line);padding-bottom:env(safe-area-inset-bottom)">
+  <div class="max-w-xl mx-auto px-4 py-1.5 flex gap-2" role="tablist">
+    <button type="button" role="tab" class="navbtn" data-act="tab" data-tab="hoy"><i data-lucide="home" class="w-5 h-5"></i>Hoy</button>
+    <button type="button" role="tab" class="navbtn" data-act="tab" data-tab="semana"><i data-lucide="calendar" class="w-5 h-5"></i>Semana</button>
+  </div>
+</nav>
+
+<script>
+(() => {
+'use strict';
+
+/* ================= utilidades ================= */
+const $ = s => document.querySelector(s);
+const pad = n => String(n).padStart(2, '0');
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const icons = () => { try { if (window.lucide) window.lucide.createIcons(); } catch (e) {} };
+const I = (name, cls = 'w-4 h-4') => `<i data-lucide="${name}" class="${cls}" aria-hidden="true"></i>`;
+
+/* ================= datos ================= */
+const DAYS = [
+  { k: 'lun', s: 'LUN', n: 'Lunes' }, { k: 'mar', s: 'MAR', n: 'Martes' }, { k: 'mie', s: 'MIÉ', n: 'Miércoles' },
+  { k: 'jue', s: 'JUE', n: 'Jueves' }, { k: 'vie', s: 'VIE', n: 'Viernes' }, { k: 'sab', s: 'SÁB', n: 'Sábado' },
+  { k: 'dom', s: 'DOM', n: 'Domingo' },
+];
+const MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+const VAC_IDX = [0, 2, 4];          // lunes, miércoles, viernes
+
+const ENTRENO = {
+  lun: { title: 'Empuje alto + tracción pesada', tag: 'Oblicuos · salida a barra', blocks: [
+    { name: 'Tracción', items: [
+      { id: 'l1', name: 'Dominadas agarre pronado sin pulgar', sets: 2, reps: '6–10', bar: true, note: 'S1: 1–2 RIR · S2: 0–1 RIR' } ] },
+    { name: 'Empuje', items: [
+      { id: 'l2', name: 'Archer push-up', sets: 2, reps: '6–8 por lado' },
+      { id: 'l3', name: 'Pike push-up con pies elevados', sets: 2, reps: '6–10' },
+      { id: 'l4', name: 'Diamond push-up', sets: 2, reps: '8–12' },
+      { id: 'l5', name: 'Vuelos laterales con mochila', sets: 2, reps: '12–15' } ] },
+    { name: 'Oblicuos', items: [
+      { id: 'l6', name: 'Windshield wipers colgado', sets: 2, reps: '4–6 por lado', bar: true } ] },
+  ]},
+  mar: { title: 'Pierna y control unilateral', tag: 'Semana sin Krav', blocks: [
+    { name: 'Pierna', items: [
+      { id: 'm1', name: 'Pistol asistida', sets: 2, reps: '5–8 por pierna' },
+      { id: 'm2', name: 'Sentadilla búlgara con silla', sets: 2, reps: '8–10 por pierna' },
+      { id: 'm3', name: 'Nordic curl excéntrico', sets: 2, reps: '4–6', note: 'bajada lenta de 4 s' },
+      { id: 'm4', name: 'Puente de glúteo a una pierna', sets: 2, reps: '10–12 por pierna' },
+      { id: 'm5', name: 'Elevación de talón a una pierna (gemelos)', sets: 2, reps: '12–15 por pierna' },
+      { id: 'm6', name: 'Peso muerto rumano a una pierna', sets: 2, reps: '8–10 por pierna', note: 'excéntrica lenta' },
+      { id: 'm7', name: 'Elevación de tibial anterior', sets: 1, reps: 'al fallo', note: 'protección al correr' },
+      { id: 'm8', name: 'Wall angels', sets: 2, reps: '10–12' } ] },
+  ]},
+  mie: { title: 'Tracción horizontal + grip + core', tag: 'Barra baja o mesa', blocks: [
+    { name: 'Tracción y agarre', items: [
+      { id: 'w1', name: 'Remo invertido', sets: 2, reps: '8–12' },
+      { id: 'w2', name: 'Shrugs con mochila', sets: 2, reps: '12–15' },
+      { id: 'w3', name: 'Tuck front lever', sets: 2, reps: '8–10 s de sostén', bar: true, note: 'progresión hacia full front lever' },
+      { id: 'w4', name: 'Dead hang', sets: 2, reps: '30–45 s', bar: true, note: 'suspensión pasiva' },
+      { id: 'w5', name: 'Curl de muñeca supinado con mochila', sets: 2, reps: '12–15' },
+      { id: 'w6', name: 'Curl de muñeca pronado con mochila', sets: 2, reps: '12–15' } ] },
+  ]},
+  jue: { title: 'Dominadas + dips + pecho', tag: 'Barra y paralelas', blocks: [
+    { name: 'Calistenia', items: [
+      { id: 'j1', name: 'Dominadas agarre abierto', sets: 2, reps: '6–8', bar: true, note: '1–2 RIR' },
+      { id: 'j2', name: 'Dips en paralelas', sets: 2, reps: '6–10', bar: true, note: 'torso inclinado para pecho' },
+      { id: 'j3', name: 'Elbow lever', sets: 2, reps: '8–10 s por nivel', bar: true, note: 'progresión' },
+      { id: 'j4', name: 'Flexiones en dedos', sets: 2, reps: '8–12' },
+      { id: 'j5', name: 'Planche lean', sets: 2, reps: '15–20 s' } ] },
+  ]},
+  vie: { title: 'Hombros + brazos + pecho', tag: 'Sin tracción vertical', blocks: [
+    { name: 'Hombros y pecho', items: [
+      { id: 'v1', name: 'Frog stand', sets: 2, reps: '15–20 s', note: 'progresión hacia handstand' },
+      { id: 'v2', name: 'Pseudo planche push-up', sets: 2, reps: '6–8' },
+      { id: 'v3', name: 'Upright raise con mochila', sets: 2, reps: '10–12', note: 'pecho superior' },
+      { id: 'v4', name: 'Vuelos laterales con mochila', sets: 2, reps: '12–15' },
+      { id: 'v5', name: 'Hollow body hold', sets: 2, reps: '20–30 s' } ] },
+    { name: 'Brazos', items: [
+      { id: 'v6', name: 'Curl isométrico en barra', sets: 2, reps: '15–20 s', bar: true, note: 'codos a 90°' },
+      { id: 'v7', name: 'Flexión al fallo', sets: 1, reps: '0 RIR', note: 'presunción de pecho' } ] },
+    { name: 'Cierre', items: [
+      { id: 'v8', name: 'Wall angels', sets: 2, reps: '10–12' } ] },
+  ]},
+  sab: { title: 'Piernas + glúteos + aductores', tag: 'Todo en casa', blocks: [
+    { name: 'Pierna y glúteo', items: [
+      { id: 's1', name: 'Cossack squats', sets: 2, reps: '5–6 por pierna', note: 'movilidad profunda y aductores' },
+      { id: 's2', name: 'Sentadilla búlgara', sets: 2, reps: '8–10 por pierna' },
+      { id: 's3', name: 'Nordic curl excéntrico', sets: 2, reps: '4–6' },
+      { id: 's4', name: 'Puente de glúteo con pausa de 2 s', sets: 2, reps: '10–12' },
+      { id: 's5', name: 'Elevación de tibial anterior', sets: 1, reps: 'al fallo' } ] },
+  ]},
+  dom: { title: 'Cardio + abdominales', tag: 'Sin cargas externas', blocks: [
+    { name: 'Cardio', items: [
+      { id: 'd1', name: '20 min suave, zona 2', sets: 0, reps: 'checklist' } ] },
+    { name: 'Abdominales', items: [
+      { id: 'd2', name: 'Elevaciones tipo Graham', sets: 2, reps: '4–6', note: 'control estricto de la bajada' },
+      { id: 'd3', name: 'Curl en banca con pies fijos', sets: 2, reps: '4–6', note: 'control estricto de la bajada' } ] },
+  ]},
+};
+
+const CUIDADO = [
+  { title: 'Cara', icon: 'smile', items: [
+    { id: 'c_agua',  label: 'Lavado con agua muy fría', hint: 'Al despertar, unos 30 s' },
+    { id: 'c_mewing', label: 'Mewing', hint: 'Lengua en el paladar, labios cerrados, respiración nasal' },
+    { id: 'c_cejas', label: 'Enfoque de cejas y mirada', hint: '2 × 20 con resistencia de los dedos' },
+    { id: 'c_parp',  label: 'Parpadeo con resistencia', hint: '2 × 10–20, 3 s cada vez' },
+    { id: 'c_son',   label: 'Sonrisa forzada (pómulos)', hint: '10 × 3 s con resistencia en las comisuras' },
+    { id: 'c_beso',  label: 'Beso con resistencia', hint: '2 × 15' },
+    { id: 'c_cuch',  label: 'Levantamiento de cuchara', hint: '' } ] },
+  { title: 'Postura', icon: 'person-standing', items: [
+    { id: 'c_chin', label: 'Chin tucks', hint: 'Contra pared o puerta' },
+    { id: 'c_pecho', label: 'Estiramiento de pecho en marco de puerta', hint: '2 × 30 s por lado' } ] },
+  { title: 'Espalda y hombros', icon: 'activity', items: [
+    { id: 'c_rot', label: 'Rotaciones torácicas', hint: '30 s por lado' },
+    { id: 'c_cobra', label: 'Postura de la cobra', hint: '1 min' },
+    { id: 'c_enc', label: 'Por encima y por detrás', hint: '1 min' },
+    { id: 'c_ang', label: 'Ángel invertido', hint: '1 min' } ] },
+];
+const CUELLO = [
+  { id: 'c_cu_a', label: 'Carga de cuello con disco, anterior', hint: '2 × 15–20 · 1–2 RIR' },
+  { id: 'c_cu_p', label: 'Carga de cuello con disco, posterior', hint: '2 × 15–20 · 1–2 RIR' },
+];
+
+const EXMAP = {};
+Object.values(ENTRENO).forEach(d => d.blocks.forEach(b => b.items.forEach(it => { EXMAP[it.id] = it; })));
+
+/* ================= fechas ================= */
+const dKey = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const fmtD = d => `${d.getDate()} ${MONTHS[d.getMonth()]}`;
+const todayIdx = () => (new Date().getDay() + 6) % 7;
+const monday = (d = new Date()) => { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; };
+const dayDate = i => { const m = monday(); m.setDate(m.getDate() + i); return m; };
+const dayNum = d => Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
+const isNeck = d => dayNum(d) % 2 === 0;      // interdiario según calendario real
+
+/* ================= estado ================= */
+const KEY = 'mi-entreno-v1';
+let storageOK = true;
+const empty = () => ({ ent: {}, notes: {}, hab: {}, vac: {} });
+function load() {
+  try { const r = localStorage.getItem(KEY); if (r) return Object.assign(empty(), JSON.parse(r)); }
+  catch (e) { storageOK = false; }
+  return empty();
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(state)); }
+  catch (e) { storageOK = false; }
+}
+const state = load();
+const ui = { tab: 'hoy', sel: todayIdx(), day: dKey(new Date()) };
+
+/* ---- entreno ---- */
+const nSets = ex => Math.max(1, ex.sets || 0);
+function setStates(key, ex) {
+  const arr = (state.ent[key] && state.ent[key][ex.id]) || [];
+  return Array.from({ length: nSets(ex) }, (_, j) => !!arr[j]);
+}
+const exDone = (key, ex) => setStates(key, ex).every(Boolean);
+function toggleEx(key, ex) {
+  const on = exDone(key, ex);
+  state.ent[key] = state.ent[key] || {};
+  state.ent[key][ex.id] = Array.from({ length: nSets(ex) }, () => !on);
+  save();
+}
+function toggleSet(key, ex, j) {
+  const s = setStates(key, ex); s[j] = !s[j];
+  state.ent[key] = state.ent[key] || {};
+  state.ent[key][ex.id] = s; save();
+}
+const allExercises = i => ENTRENO[DAYS[i].k].blocks.flatMap(b => b.items);
+const entDay = i => { const k = dKey(dayDate(i)), list = allExercises(i); return { done: list.filter(ex => exDone(k, ex)).length, total: list.length }; };
+
+/* ---- cuidado ---- */
+function cuidadoList(i) {
+  const d = dayDate(i), list = [];
+  CUIDADO.forEach(g => g.items.forEach(it => list.push({ ...it, grp: g.title })));
+  if (VAC_IDX.includes(i)) list.push({ id: 'vac', vac: true, label: 'Stomach vacuum', hint: 'En ayunas · 3–5 series de 10–15 s · mínimo 3', grp: 'Ayunas' });
+  if (isNeck(d)) CUELLO.forEach(it => list.push({ ...it, grp: 'Cuello · hoy toca' }));
+  return list;
+}
+const isOn = (k, it) => it.vac ? (state.vac[k] || 0) >= 3 : !!(state.hab[k] && state.hab[k][it.id]);
+function cuiDay(i) {
+  const k = dKey(dayDate(i)), list = cuidadoList(i);
+  return { done: list.filter(it => isOn(k, it)).length, total: list.length };
+}
+
+/* ================= vistas ================= */
+function header() {
+  const warn = storageOK ? '' : `<p class="mt-3 text-sm rounded-xl px-3 py-2" style="background:rgba(255,31,61,.1);border:1px solid rgba(255,31,61,.4);color:#ffb3bf">No se puede guardar en este navegador. El progreso se perderá al cerrar.</p>`;
+  return `<header class="glow -mx-2 px-2 pb-1">
+    <p class="text-xs uppercase tracking-[.2em] text-zinc-400">${DAYS[todayIdx()].n} ${fmtD(new Date())}</p>
+    <h1 class="text-3xl font-extrabold tracking-tight mt-1">Mi <span class="t-ent">entreno</span> y <span class="t-cui">cuidado</span></h1>
+    ${warn}
+  </header>`;
+}
+
+function strip() {
+  const t = todayIdx();
+  return `<nav class="strip mt-5" aria-label="Días de la semana">${DAYS.map((d, i) => {
+    const dt = dayDate(i), e = entDay(i), c = cuiDay(i), on = i === ui.sel;
+    const eDone = e.total && e.done === e.total, cDone = c.total && c.done === c.total;
+    return `<button type="button" data-act="sel" data-i="${i}" aria-pressed="${on}" aria-label="${d.n} ${dt.getDate()}${i === t ? ', hoy' : ''}" class="day ${on ? 'on' : ''} ${i === t ? 'today' : ''}">
+      <span class="text-[11px] font-semibold ${on ? '' : 'text-zinc-400'}">${d.s}</span>
+      <span class="text-lg font-extrabold leading-none">${dt.getDate()}</span>
+      <span class="flex gap-1"><span class="dot e" style="${eDone ? '' : 'opacity:.25'}"></span><span class="dot c" style="${cDone ? '' : 'opacity:.25'}"></span></span>
+    </button>`;
+  }).join('')}</nav>
+  <p class="text-xs text-zinc-500 mt-2 flex items-center gap-4"><span class="flex items-center gap-1.5"><span class="dot e" style="margin:0"></span>Entreno</span><span class="flex items-center gap-1.5"><span class="dot c" style="margin:0"></span>Cuidado</span></p>`;
+}
+
+function setPips(ex, key) {
+  if (nSets(ex) <= 1) return '';
+  const st = setStates(key, ex);
+  return `<div class="flex gap-1.5 mt-2.5" role="group" aria-label="Series de ${esc(ex.name)}">${st.map((v, j) =>
+    `<button type="button" data-act="set" data-id="${ex.id}" data-k="${key}" data-j="${j}" aria-pressed="${v}" aria-label="Serie ${j + 1}" class="pip ${v ? 'on' : ''}">${j + 1}</button>`).join('')}</div>`;
+}
+
+function exRow(ex, key) {
+  const on = exDone(key, ex);
+  const meta = [ex.sets ? `${ex.sets} × ${ex.reps}` : ex.reps, ex.note].filter(Boolean).join(' · ');
+  const noteVal = (state.notes[key] && state.notes[key][ex.id]) || '';
+  const input = ex.sets ? `<input class="note-in" data-note data-id="${ex.id}" data-k="${key}" value="${esc(noteVal)}" placeholder="reps / kg" aria-label="Anotar reps o kg de ${esc(ex.name)}">` : '';
+  return `<article class="card ex">
+    <button type="button" data-act="ex" data-id="${ex.id}" data-k="${key}" aria-pressed="${on}" aria-label="Marcar ${esc(ex.name)}" class="chk ent ${on ? 'on' : ''}">${on ? I('check') : ''}</button>
+    <div class="min-w-0 flex-1">
+      <p class="font-semibold leading-snug ${on ? 'line-through text-zinc-500' : ''}">${ex.name}${ex.bar ? '<span class="tag">barra</span>' : ''}</p>
+      <p class="text-xs text-zinc-400 mt-0.5">${meta}</p>
+      ${setPips(ex, key)}
+      ${input}
+    </div>
+  </article>`;
+}
+
+function entrenoSection(i, key) {
+  const d = ENTRENO[DAYS[i].k], e = entDay(i);
+  return `<section class="mt-6">
+    <div class="flex items-end justify-between gap-3">
+      <div>
+        <p class="text-xs uppercase tracking-[.18em] text-zinc-400">${DAYS[i].n} ${fmtD(dayDate(i))}${i === todayIdx() ? ' · hoy' : ''}</p>
+        <h2 class="text-2xl font-extrabold tracking-tight">${d.title}</h2>
+        <p class="text-sm text-zinc-400 mt-0.5">${d.tag}</p>
+      </div>
+      <span class="chip shrink-0 text-xs font-bold px-2.5 py-1 rounded-full border" style="border-color:rgba(255,43,209,.45);color:#ff9be9">${e.done}/${e.total}</span>
+    </div>
+    <div class="bar e mt-3"><i style="width:${e.total ? Math.round(e.done / e.total * 100) : 0}%"></i></div>
+    ${d.blocks.map(b => `<h3 class="text-xs uppercase tracking-[.16em] text-zinc-500 font-bold mt-5">${b.name}</h3>${b.items.map(ex => exRow(ex, key)).join('')}`).join('')}
+  </section>`;
+}
+
+function cuiRow(it, key) {
+  if (it.vac) {
+    const n = state.vac[key] || 0;
+    return `<div class="card ex" style="align-items:center">
+      <div class="min-w-0 flex-1"><p class="font-semibold">${it.label}</p><p class="text-xs text-zinc-400 mt-0.5">${it.hint}</p>
+        <div class="flex gap-1.5 mt-2.5" role="group" aria-label="Series de stomach vacuum">${[1, 2, 3, 4, 5].map(j =>
+          `<button type="button" data-act="vac" data-n="${j}" data-k="${key}" aria-pressed="${j <= n}" aria-label="Serie ${j}" class="vchip ${j <= n ? 'on' : ''}">${j}</button>`).join('')}</div>
+      </div></div>`;
+  }
+  const on = isOn(key, it);
+  return `<article class="card ex">
+    <button type="button" data-act="hab" data-id="${it.id}" data-k="${key}" aria-pressed="${on}" aria-label="Marcar ${esc(it.label)}" class="chk cui ${on ? 'on' : ''}">${on ? I('check') : ''}</button>
+    <div class="min-w-0 flex-1"><p class="font-semibold leading-snug ${on ? 'line-through text-zinc-500' : ''}">${it.label}</p>${it.hint ? `<p class="text-xs text-zinc-400 mt-0.5">${it.hint}</p>` : ''}</div>
+  </article>`;
+}
+
+function cuidadoSection(i, key) {
+  const list = cuidadoList(i), c = cuiDay(i);
+  const groups = [];
+  list.forEach(it => {
+    let g = groups.find(x => x.title === it.grp);
+    if (!g) { g = { title: it.grp, items: [] }; groups.push(g); }
+    g.items.push(it);
+  });
+  return `<section class="mt-9">
+    <div class="flex items-end justify-between gap-3">
+      <h2 class="text-2xl font-extrabold tracking-tight t-cui">Cuidado</h2>
+      <span class="text-xs font-bold px-2.5 py-1 rounded-full border" style="border-color:rgba(45,212,191,.45);color:#7ff0e0">${c.done}/${c.total}</span>
+    </div>
+    <div class="bar c mt-3"><i style="width:${c.total ? Math.round(c.done / c.total * 100) : 0}%"></i></div>
+    ${groups.map(g => `<h3 class="text-xs uppercase tracking-[.16em] text-zinc-500 font-bold mt-5">${g.title}</h3>${g.items.map(it => cuiRow(it, key)).join('')}`).join('')}
+  </section>`;
+}
+
+function renderHoy() {
+  const i = ui.sel, key = dKey(dayDate(i));
+  const reset = `<div class="mt-8 flex justify-end"><button type="button" data-act="resetDay" data-k="${key}" class="ghost">${I('rotate-ccw')}Reiniciar este día</button></div>`;
+  return header() + strip() + entrenoSection(i, key) + cuidadoSection(i, key) + reset;
+}
+
+function neckCalendar() {
+  const base = new Date(); let html = '<div class="grid grid-cols-7 gap-1.5 mt-3" role="list" aria-label="Calendario de carga de cuello">';
+  for (let o = -6; o <= 7; o++) {
+    const d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + o);
+    const k = dKey(d), neck = isNeck(d);
+    const done = CUELLO.every(it => isOn(k, it));
+    const label = `${fmtD(d)}: ${neck ? 'toca cuello' : 'descanso'}${done ? ', completado' : ''}`;
+    html += `<div role="listitem" aria-label="${label}" class="rounded-xl py-2 text-center border ${done ? 'g-cui' : ''}" style="border-color:${done ? 'transparent' : (neck ? 'var(--cyan)' : 'var(--line)')};${!done && !neck ? 'opacity:.5' : ''};color:${done ? '#042f2e' : '#fff'}">
+      <div class="text-[10px] ${done ? '' : 'text-zinc-400'}">${d.getDate()}</div>
+      <div class="text-xs font-bold">${MONTHS[d.getMonth()]}</div>
+      <div class="text-[11px] mt-0.5 h-3">${done ? '✓' : (neck ? '●' : '')}</div></div>`;
+  }
+  return html + '</div><p class="text-xs text-zinc-500 mt-2">● toca cuello · ✓ completado. Se calcula por el calendario: día sí, día no.</p>';
+}
+
+function renderSemana() {
+  let et = 0, et2 = 0, ct = 0, ct2 = 0;
+  const rows = DAYS.map((d, i) => {
+    const e = entDay(i), c = cuiDay(i);
+    et += e.done; et2 += e.total; ct += c.done; ct2 += c.total;
+    const ePct = e.total ? Math.round(e.done / e.total * 100) : 0, cPct = c.total ? Math.round(c.done / c.total * 100) : 0;
+    return `<button type="button" data-act="selSemana" data-i="${i}" class="card w-full text-left flex items-center gap-4 p-4 mt-3" aria-label="Ver ${d.n}">
+      <div class="w-14 shrink-0"><p class="text-xs text-zinc-400">${d.s}</p><p class="font-extrabold text-lg">${dayDate(i).getDate()}</p></div>
+      <div class="flex-1 min-w-0 space-y-2">
+        <div><div class="flex justify-between text-[11px] text-zinc-400"><span>Entreno</span><span>${e.done}/${e.total}</span></div><div class="bar e"><i style="width:${ePct}%"></i></div></div>
+        <div><div class="flex justify-between text-[11px] text-zinc-400"><span>Cuidado</span><span>${c.done}/${c.total}</span></div><div class="bar c"><i style="width:${cPct}%"></i></div></div>
+      </div>
+    </button>`;
+  }).join('');
+  const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+  return `<header class="glow -mx-2 px-2 pb-1">
+      <p class="text-xs uppercase tracking-[.2em] text-zinc-400">Esta semana</p>
+      <h1 class="text-3xl font-extrabold tracking-tight mt-1">Progreso</h1>
+    </header>
+    <section class="grid grid-cols-2 gap-3 mt-5">
+      <div class="card p-4"><p class="text-xs text-zinc-400">Entreno</p><p class="text-3xl font-extrabold t-ent">${pct(et, et2)}%</p><p class="text-xs text-zinc-500 mt-1">${et} de ${et2} ejercicios</p></div>
+      <div class="card p-4"><p class="text-xs text-zinc-400">Cuidado</p><p class="text-3xl font-extrabold t-cui">${pct(ct, ct2)}%</p><p class="text-xs text-zinc-500 mt-1">${ct} de ${ct2} hábitos</p></div>
+    </section>
+    <section class="mt-7"><h2 class="text-lg font-bold">Días</h2>${rows}</section>
+    <section class="mt-7"><h2 class="text-lg font-bold t-cui">Carga de cuello</h2>${neckCalendar()}</section>`;
+}
+
+function render() {
+  const html = ui.tab === 'semana' ? renderSemana() : renderHoy();
+  $('#app').innerHTML = html;
+  document.querySelectorAll('[data-act="tab"]').forEach(b => {
+    const on = b.dataset.tab === ui.tab;
+    b.classList.toggle('on', on); b.setAttribute('aria-selected', on);
+  });
+  icons();
+}
+
+/* ================= temporizador ================= */
+const T = { total: 0, left: 0, run: false, end: 0, iv: null };
+let audio = null;
+function unlock() {
+  try {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    audio = audio || new AC();
+    if (audio.state === 'suspended') audio.resume();
+  } catch (e) {}
+}
+function beep() {
+  try {
+    if (audio) [0, 0.25, 0.5].forEach(t => {
+      const o = audio.createOscillator(), g = audio.createGain();
+      o.frequency.value = 880; g.gain.value = 0.08;
+      o.connect(g); g.connect(audio.destination);
+      o.start(audio.currentTime + t); o.stop(audio.currentTime + t + 0.15);
+    });
+  } catch (e) {}
+  try { if (navigator.vibrate) navigator.vibrate([200, 100, 200]); } catch (e) {}
+}
+function tPaint() {
+  const m = Math.floor(T.left / 60), s = T.left % 60;
+  $('#tTime').textContent = `${pad(m)}:${pad(s)}`;
+  $('#tFill').style.width = (T.total ? T.left / T.total * 100 : 0) + '%';
+  const btn = $('#tBtn');
+  btn.textContent = T.run ? 'Pausar' : (T.left > 0 && T.left < T.total ? 'Seguir' : 'Iniciar');
+  document.querySelectorAll('[data-act="preset"]').forEach(b => b.classList.toggle('on', Number(b.dataset.s) === T.total));
+}
+function tTick() {
+  T.left = Math.max(0, Math.ceil((T.end - Date.now()) / 1000));
+  if (T.left <= 0) { clearInterval(T.iv); T.run = false; beep(); const f = $('#tFill'); f.classList.remove('flash'); void f.offsetWidth; f.classList.add('flash'); }
+  tPaint();
+}
+function tStart(sec) {
+  unlock(); clearInterval(T.iv);
+  T.total = sec; T.left = sec; T.end = Date.now() + sec * 1000; T.run = true;
+  T.iv = setInterval(tTick, 250); tPaint();
+}
+function tToggle() {
+  unlock();
+  if (T.run) { clearInterval(T.iv); T.run = false; T.left = Math.max(0, Math.ceil((T.end - Date.now()) / 1000)); }
+  else if (T.left > 0 && T.left < T.total) { T.end = Date.now() + T.left * 1000; T.run = true; T.iv = setInterval(tTick, 250); }
+  else { tStart(T.total || 60); return; }
+  tPaint();
+}
+function tReset() { clearInterval(T.iv); T.run = false; T.left = T.total; tPaint(); }
+
+/* ================= eventos ================= */
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]');
+  if (!el) return;
+  const act = el.dataset.act;
+  const i = ui.sel, key = el.dataset.k || dKey(dayDate(i));
+
+  switch (act) {
+    case 'tab': ui.tab = el.dataset.tab; break;
+    case 'sel': ui.sel = Number(el.dataset.i); break;
+    case 'selSemana': ui.sel = Number(el.dataset.i); ui.tab = 'hoy'; break;
+    case 'ex': { const ex = EXMAP[el.dataset.id]; if (ex) toggleEx(key, ex); break; }
+    case 'set': { const ex = EXMAP[el.dataset.id]; if (ex) toggleSet(key, ex, Number(el.dataset.j)); break; }
+    case 'hab': {
+      state.hab[key] = state.hab[key] || {};
+      state.hab[key][el.dataset.id] = !state.hab[key][el.dataset.id];
+      save(); break;
+    }
+    case 'vac': {
+      const n = Number(el.dataset.n);
+      state.vac[key] = (state.vac[key] === n) ? n - 1 : n;
+      save(); break;
+    }
+    case 'resetDay':
+      if (confirm('¿Borrar lo marcado de este día?')) {
+        delete state.ent[key]; delete state.hab[key]; delete state.vac[key]; delete state.notes[key];
+        save();
+      } else return;
+      break;
+    case 'preset': tStart(Number(el.dataset.s)); return;
+    case 'tToggle': tToggle(); return;
+    case 'tReset': tReset(); return;
+    default: return;
+  }
+  render();
+});
+
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (!el.matches || !el.matches('input[data-note]')) return;
+  const k = el.dataset.k;
+  state.notes[k] = state.notes[k] || {};
+  state.notes[k][el.dataset.id] = el.value;
+  save();
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible') return;
+  const now = dKey(new Date());
+  if (now !== ui.day) { ui.day = now; ui.sel = todayIdx(); render(); }
+  if (T.run) tTick();
+});
+
+/* ================= arranque ================= */
+render();
+tPaint();
+})();
+</script>
+</body>
+</html>
